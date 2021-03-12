@@ -1,4 +1,4 @@
-Installation Instructions for Debian Bullseye
+Installation Instructions for Mint Ulyssa
 ---------------------------------------------
 I've only tested this in a VM and haven't used it for anything.
 Currently the qt cmake find scripts didn't detect the qt core and widgets
