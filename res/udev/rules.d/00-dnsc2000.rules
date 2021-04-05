@@ -1,0 +1,2 @@
+#run connection script when device is plugged in
+SUBSYSTEM=="sound", ATTRS{id}=="DNSC2000", RUN+="/etc/udev/scripts.d/dnsc2000.sh"

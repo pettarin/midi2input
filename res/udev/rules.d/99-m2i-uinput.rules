@@ -1,0 +1,2 @@
+#grant permission to users with active session to read and write to /dev/uinput
+KERNEL=="uinput", SUBSYSTEM=="misc", OPTIONS+="static_node=uinput", TAG+="uaccess", OPTIONS+="static_node=uinput"

@@ -64,6 +64,8 @@ install( FILES cfg/config.lua cfg/basic.lua
     DESTINATION share/m2i )
 install( FILES res/applications/m2i.desktop
     DESTINATION share/applications )
+install( FILES res/udev/rules.d/99-m2i-uinput.rules
+    DESTINATION lib/udev/rules.d )
 
 # CPack
 # =====
