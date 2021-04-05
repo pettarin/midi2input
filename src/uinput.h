@@ -16,6 +16,12 @@ namespace m2i {
         Uinput();
         ~Uinput();
 
+        // fix for https://gitlab.com/enetheru/midi2input/-/issues/76
+        //I want to allocate memory for all the things, but do not want to run system calls until after the options
+        // parsing and help dialog so i need these two functions to enable tighter control
+        bool initialise();
+        bool finalise();
+
         //emulating input devices
         void keypress( int input_event_code );
         void keydown( int input_event_code );

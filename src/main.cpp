@@ -189,6 +189,11 @@ main( int argc, char **argv )
     else
         m2i::config = m2i::getPath( "config.lua" );
 
+    /* ================== virtual input device ================ */
+    if( m2i::uinput.initialise() ){
+        spdlog::error(FMT_STRING("Failed to initialise virtual input device"));
+        exit(-1);
+    }
     /* =================== Lua Initialisation ================= */
     m2i::L = luaL_newstate();
     luaL_openlibs( m2i::L );

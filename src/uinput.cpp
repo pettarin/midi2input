@@ -12,7 +12,13 @@
 #include "uinput.h"
 
 namespace m2i {
-    Uinput::Uinput(){
+    Uinput::Uinput(){}
+    Uinput::~Uinput(){
+        finalise();
+    }
+
+    bool Uinput::initialise(){
+
         struct libevdev *dev;
         dev = libevdev_new();
         libevdev_set_name(dev, "m2i Virtual Input");
@@ -68,21 +74,28 @@ namespace m2i {
         }
 
         fd = open("/dev/uinput", O_RDWR);
-        int rc = libevdev_uinput_create_from_device(dev, fd, &uidev);
+        if( fd < 0 ){
+            int errsv = errno;
+            spdlog::error( FMT_STRING("Unable to open /dev/uinput with O_RDWR: ({})"), strerror(errsv) );
+            return true;
+        }
 
+        int rc = libevdev_uinput_create_from_device(dev, fd, &uidev);
         if (rc < 0){
             //no point in continuing if we cannot create a virtual device.
             spdlog::critical( FMT_STRING("Failed to create virtual input device: ({})"), strerror(-rc));
             close(fd);
-            exit(1);
+            return true;
         }
 
         libevdev_free(dev);
+        return false;
     }
 
-    Uinput::~Uinput(){
+    bool Uinput::finalise(){
         libevdev_uinput_destroy(uidev);
         close(fd);
+        return false;
     }
 
     void Uinput::keypress(int input_event_code) {
