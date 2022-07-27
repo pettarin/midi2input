@@ -6,7 +6,7 @@ libraries which prevents the use of the system tray icon, not sure what's up
 with that, could use some help debugging.
 
 ```bash
-apt-get install git cmake g++ liblua5.3-dev libedev-dev libasound2-dev libspdlog1 libfmt-dev openimageio-tools
+apt-get install git cmake g++ liblua5.3-dev libevdev-dev libasound2-dev libspdlog1 libfmt-dev openimageio-tools
   - OPTIONALLY libjack-jackd2-dev
 git clone https://gitlab.com/enetheru/midi2input.git
 cd midi2input
