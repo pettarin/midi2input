@@ -26,6 +26,9 @@ namespace m2i {
     int lua_loopenable( lua_State *L );
     int lua_milliseconds( lua_State *L );
 
+    int lua_warnout( lua_State *L );
+    int lua_errorout( lua_State *L );
+
     //uinput events
     int lua_keypress( lua_State *L );
     int lua_keydown( lua_State *L );

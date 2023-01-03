@@ -279,6 +279,7 @@ AUTHORS
         Marcin Świgoń
         Jarrod Whittaker
         Ivan Tkachenko
+        Martin Reiter
 
 SEE ALSO
        lua(1), jackd(1)

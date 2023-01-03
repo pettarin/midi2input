@@ -35,6 +35,9 @@ namespace m2i {
     extern bool quit;
     extern bool loop_enabled;
 
+    bool print_to_error = false;
+    bool print_to_warn = false;    
+
 static const struct luaL_Reg funcs [] = {
   {"print",        lua_print},
   {"midi_send",    lua_midisend},
@@ -46,9 +49,11 @@ static const struct luaL_Reg funcs [] = {
   {"keydown",      lua_keydown },
   {"keyup",        lua_keyup },
   {"mousemove",    lua_mousemove },
-  {"mousewarp",    lua_mousewarp },
+  {"mousewarp",    lua_mousewarp }, 
   {"mousescroll",  lua_mousescroll },
   {"mousehscroll",  lua_mousehscroll },
+  {"warnout", lua_warnout},
+  {"errorout", lua_errorout},
 
 #ifdef WITH_XORG
   {"detectwindow", lua_detectwindow },
@@ -95,7 +100,33 @@ lua_print( lua_State* L ){
     for( int i = 1; i <= args; ++i ){
         output << lua_tostring(L, i);
     }
-    spdlog::info( FMT_STRING( "SCRIPT: {}" ), output.str() );
+    
+    if (print_to_error) {
+        spdlog::error( FMT_STRING( "SCRIPT: {}" ), output.str() );    
+    }
+    else if (print_to_warn) {
+        spdlog::warn( FMT_STRING( "SCRIPT: {}" ), output.str() );
+    } else {
+        spdlog::info( FMT_STRING( "SCRIPT: {}" ), output.str() );
+    }
+    return 0;
+}
+
+int
+lua_warnout( lua_State* L ) {
+    int args = lua_gettop( L );
+    if (args == 1) {
+        print_to_warn = lua_toboolean(L, 1);
+    }
+    return 0;
+}
+
+int 
+lua_errorout( lua_State* L ) {
+    int args = lua_gettop( L );
+    if (args == 1) {
+        print_to_error = lua_toboolean(L, 1);
+    }    
     return 0;
 }
 
@@ -284,8 +315,12 @@ int
 lua_jackconnect( lua_State *L )
 {
     (void)L;
-    //TODO connect to jack port
-    spdlog::warn( FMT_STRING( "LUA: This function is not implemented yet" ) );
+    std::string client = luaL_checkstring(L, 1);
+    spdlog::warn( FMT_STRING( "LUA: This function is not well tested yet" ) );
+    spdlog::warn( client.c_str() );
+    // std::string port = luaL_checkstring(L, 2);
+    m2i::jack.connect_local( client.c_str() );
+    spdlog::warn( FMT_STRING( "connected...." ) );
     return 0;
 }
 #endif//WITH_JACK

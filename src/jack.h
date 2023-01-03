@@ -18,6 +18,8 @@ public:
     unsigned long event_pending();
     midi_event event_receive();
 
+    int connect_local( const char * source_client );	    
+
     const bool &valid = valid_;
 
     ~JackSeq();
