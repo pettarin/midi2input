@@ -53,6 +53,27 @@ JackSeq::fina()
 }
 
 
+int JackSeq::connect_local( const char * source_port )
+{
+    if( valid ){
+
+        const char **foundports = jack_get_ports( client, source_port, JACK_DEFAULT_MIDI_TYPE, JackPortIsOutput );
+
+        if (foundports) {
+            spdlog::warn( FMT_STRING( "JACK: Connecting:") );
+            spdlog::warn( foundports[0] );
+            spdlog::warn( jack_port_name( input_port ) );
+            if (jack_connect(client, foundports[0], jack_port_name( input_port ) )) {
+                spdlog::error( FMT_STRING( "JACK: cannot connect" ) );
+            }
+
+            jack_free(foundports);
+        }
+    }
+    return 0;
+}	 
+
+
 void
 JackSeq::event_send( const midi_event &event )
 {

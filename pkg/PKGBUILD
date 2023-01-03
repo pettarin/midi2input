@@ -1,6 +1,6 @@
 # Maintainer: Samuel Nicholas <nicholas.samuel@gmail.com>
 pkgname='m2i-git'
-pkgver=r237.e5ee083
+pkgver=r275.50ee553
 pkgrel=1
 pkgdesc="turn midi events into mouse and keyboard events"
 arch=( 'x86_64' 'i686' 'armv7h' )
